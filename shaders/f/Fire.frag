@@ -46,7 +46,8 @@ void mainImage(out vec4 O, vec2 I)
             p += cos((p.yzx - vec3(t/.1, t, d) ) * d ) / d;
         //Sample approximate distance to hollow cone
         z += d = .01 + abs(length(p.xz) + p.y * .3 - .5) / 7.;
-        //Add color and glow attenuation
+        // Add color and glow attenuation
+        // TODO 为什么加这行
         O += (sin(z / 3. + vec4(7, 2, 3, 0)) + 1.1) / d;
     }
     //Tanh tonemapping

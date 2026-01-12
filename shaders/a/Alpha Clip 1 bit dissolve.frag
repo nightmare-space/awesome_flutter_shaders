@@ -30,7 +30,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 	vec2 uv = fragCoord.xy/iResolution.xy;
 
     // color textures
-    vec4 clrA = SG_TEX0(iChannel0, uv);
+    vec4 clrA = SG_TEX1(iChannel1, uv);
     
     // background grid
     vec4 clrBG = 0.2 * vec4(1., 1., 1., 1.) * gridTexture(fragCoord.xy/iResolution.xx * vec2(5., 5.)) + 0.6;
@@ -52,7 +52,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     
     // fade mask texture
     // use a linear texture that has values between 0-1
-    vec4 alphaTex = SG_TEX1(iChannel1, uv_mask * mask_tile);
+    vec4 alphaTex = SG_TEX0(iChannel0, uv_mask * mask_tile);
 
     // alpha mask (1-bit)
     float a = step(alphaTex.r, myAlpha);
