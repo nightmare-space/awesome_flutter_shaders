@@ -195,17 +195,27 @@ packages:
   shader_buffers:
     dependency: "direct main"
     description:
-      path: "/Users/laurie/Desktop/nightmare-git-repo/shader_buffers"
-      relative: false
-    source: path
-    version: "1.1.2"
+      name: shader_buffers
+      sha256: "3a9cea23dcf8da9e618fdbaa046deaffd22de73ae990159b63da48e0f67521d9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   shader_graph:
     dependency: "direct main"
     description:
-      path: "/Users/laurie/Desktop/nightmare-space/shader_graph"
-      relative: false
-    source: path
-    version: "0.0.4"
+      name: shader_graph
+      sha256: "340767611ecec9afd7bfa98e3714babd4607ae59db61e0b46c4735a5c05cf039"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
+  signale:
+    dependency: "direct main"
+    description:
+      name: signale
+      sha256: "75b09c5719776ca1dfd10c51e1e3e9d08003a82124bbcc4441df692a30b1d9a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   sky_engine:
     dependency: transitive
     description: flutter

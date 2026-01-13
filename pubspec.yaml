@@ -20,18 +20,14 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   path: ^1.9.1
-  shader_graph:
-    path: /Users/laurie/Desktop/nightmare-space/shader_graph
+  shader_graph: ^0.0.5
+  signale: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^3.0.0
-
-dependency_overrides:
-  shader_buffers:
-    path: /Users/laurie/Desktop/nightmare-git-repo/shader_buffers
 
 flutter:
   uses-material-design: true
@@ -41,6 +37,14 @@ flutter:
     - assets/cubemaps/
 
   shaders:
+    # game
+    - shaders/game/Bricks Game BufferA.frag
+    - shaders/game/Bricks Game BufferB.frag
+    - shaders/game/Bricks Game.frag
+    - shaders/game/Pacman Game BufferA.frag
+    - shaders/game/Pacman Game BufferB.frag
+    - shaders/game/Pacman Game.frag
+    #
     # a
     - shaders/a/A lot of spheres.frag
     - shaders/a/a study of glass.frag
@@ -48,6 +52,7 @@ flutter:
     - shaders/a/Alien ocean.frag
     - shaders/a/Alien Space Jockey.frag
     - shaders/a/Alpha Clip 1 bit dissolve.frag
+    - shaders/a/Analytic Motionblur 2D.frag
     - shaders/a/anamorphic rendering.frag
     - shaders/a/Angel.frag
     - shaders/a/Arcade Pacman.frag
@@ -71,6 +76,7 @@ flutter:
     #
     # c
     - shaders/c/CineShader Lava.frag
+    - shaders/c/Clouds 3D.frag
     - shaders/c/Clouds-2D.frag
     - shaders/c/cobweb test.frag
     - shaders/c/Cold.frag
@@ -88,8 +94,8 @@ flutter:
     - shaders/d/Digital Brain.frag
     - shaders/d/Dive to Cloud.frag
     - shaders/d/divergence-free flow curly noise.frag
-    - shaders/d/dodecahedron͏ BufferA.frag
-    - shaders/d/dodecahedron͏.frag
+    - shaders/d/dodecahedron BufferA.frag
+    - shaders/d/dodecahedron.frag
     - shaders/d/drifting.frag
     - shaders/d/Drive Home 6 - Rain Window.frag
     - shaders/d/DULL SKULL - Prometheus.frag
@@ -98,13 +104,17 @@ flutter:
     # e
     - shaders/e/ED-209.frag
     - shaders/e/electron.frag
-    # Elevated
+    - shaders/e/Elemental Ring.frag
     - shaders/e/Elevated BufferA.frag
     - shaders/e/Elevated.frag
+    - shaders/e/Endless living creature.frag
     - shaders/e/EntryLevel.frag
+    - shaders/e/Ether.frag
+    - shaders/e/Eve Arrives.frag
+    - shaders/e/Even faster procedural ocean.frag
     #
     # f
-    - shaders/f/Fire.frag
+    - shaders/f/3D Fire.frag
     - shaders/f/Flame.frag
     - shaders/f/fractal pyramid.frag
     - shaders/f/Fractured Orb BufferA.frag
