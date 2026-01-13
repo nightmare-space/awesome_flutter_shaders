@@ -19,7 +19,9 @@ vec3 srf(vec2 pos, int n, float time)
     vec2 dx = vec2(0);
     
     vec2 dir = vec2(1,0);
-    for(int i=0;i<n;i++){
+    // SkSL requires constant loop bounds; unroll to max iterations
+    for(int i=0;i<ITERS_NORMAL;i++){
+        if(i >= n) break;
         dir = rot*dir;
         float x = dot(dir, pos) * freq + t;
         float wave = exp(sin(x)-1.);

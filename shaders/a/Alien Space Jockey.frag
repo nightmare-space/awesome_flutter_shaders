@@ -1,3 +1,13 @@
+// --- Migrate Log ---
+// 1) 添加 common_header 引入
+// 2) 替换位运算符 `>>` 和 `&` 为算术运算（除法和模运算），在 N() 函数中提取位提取逻辑
+// 3) 将 shadow() 函数中的浮点循环改为整数循环
+//
+// --- Migrate Log (EN) ---
+// 1) Added common_header include
+// 2) Replaced bitwise operators `>>` and `&` with arithmetic operations (division and modulo) in N() function
+// 3) Changed float loop to int loop in shadow() function
+
 // 'Space Jockey' dean_the_coder (Twitter: @deanthecoder)
 // https://www.shadertoy.com/view/mdB3Rh (YouTube: https://youtu.be/6ZFq3TlvHBA)
 //
@@ -375,7 +385,11 @@ vec3 N(vec3 p, float t) {
 	float h = t * .1;
 	vec3 n = vec3(0);
 	for (int i = I0; i < 4; i++) {
-		vec3 e = .005773 * (2. * vec3(((i + 3) >> 1) & 1, (i >> 1) & 1, i & 1) - 1.);
+		// Replace bitwise operations with arithmetic: >> 1 = / 2, & 1 = mod(..., 2)
+		int bit0 = int(mod(float(i), 2.0));
+		int bit1 = int(mod(float(i) / 2.0, 2.0));
+		int bit2 = int(mod(float(i + 3) / 2.0, 2.0));
+		vec3 e = .005773 * (2. * vec3(bit2, bit1, bit0) - 1.);
 		n += e * map(p + e * h);
 	}
 
@@ -389,7 +403,7 @@ float shadow(vec3 p, vec3 ld, vec3 n) {
 	float s = 1.;
 	float t = .05;
 	float mxt = length(p - vec3(-20, 3, 3));
-	for (float i = Z0; i < 30.; i++) {
+	for (int i = I0; i < 30; i++) {
 		d = map(t * ld + p);
 		s = min(s, 15. * d / t);
 		t += max(.03, d);

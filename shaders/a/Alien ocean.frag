@@ -1,7 +1,16 @@
 // --- Migrate Log ---
-// 添加 common_header 引入及缺失 uniform(iChannel0,iChannel1) 和 iChannelResolution；替换对纹理缓冲区的 texelFetch 为兼容的 texture() 采样
+// 1) 添加 common_header 引入及缺失 uniform(iChannel0,iChannel1) 和 iChannelResolution
+// 2) 替换对纹理缓冲区的 texelFetch 为兼容的 texture() 采样
+// 3) 修复 Alien ocean Common.frag 中的参数化循环 `for(int i=0;i<n;i++)` 为常数循环（上限改为50，内部使用 break 提前退出）
+// 4) 替换不支持的位运算符：`>>` 改为除法，`%` 改为 mod() 函数
+// 5) 修复 int/float 混用问题：min()/max() 操作需转换为浮点再转回整数
+//
 // --- Migrate Log (EN) ---
-// Added common_header include and missing uniforms (iChannel0, iChannel1) and iChannelResolution; replaced texelFetch on buffers with compatible texture() sampling
+// 1) Added common_header include and missing uniforms (iChannel0, iChannel1) and iChannelResolution
+// 2) Replaced texelFetch on buffers with compatible texture() sampling
+// 3) Fixed parameterized loop `for(int i=0;i<n;i++)` in Alien ocean Common.frag to use constant bound (50) with internal break statement
+// 4) Replaced unsupported bitwise operators: >> with division, % with mod() function
+// 5) Fixed int/float mixing: min()/max() operations converted to floats then back to int
 
 #include <../common/common_header.frag>
 #include <Alien ocean Common.frag>
@@ -65,14 +74,14 @@ void mainImage( out vec4 O, in vec2 u )
     
     if ((1.0-vo.y)/vd.y>0.0) {
         //raymarch using previous pass
-        ivec2 _idx0 = (ivec2(u) >> 3);
+        ivec2 _idx0 = ivec2(floor(vec2(u) / pow(2.0, 3.0)));
         vec2 _uv0 = (vec2(_idx0) + 0.5) / iChannelResolution[0].xy;
         float t = texture(iChannel0, _uv0).x;
         t = ray(vo,vd, t);
         
         //normal using derivative
         vec3 p = vo+vd*t;
-        vec3 N = norm(p.xz, max(ITERS_NORMAL+min(int(log(t)*-10.),0),1), iTime);
+        vec3 N = norm(p.xz, int(max(float(ITERS_NORMAL + int(min(log(t)*-10., 0.0))), 1.0)), iTime);
         
         //Reflected ray
         vec3 refd = reflect(vd,N);
@@ -101,7 +110,7 @@ void mainImage( out vec4 O, in vec2 u )
     col = 1.-exp(-col);
     col = pow(col,vec3(1./2.2));
     
-    ivec2 _idx1 = ivec2(u) % 1024;
+    ivec2 _idx1 = ivec2(mod(vec2(u), 1024.0));
     vec2 _uv1 = (vec2(_idx1) + 0.5) / iChannelResolution[1].xy;
     vec3 noise = pow(texture(iChannel1, _uv1).rgb, vec3(1.0 / 2.2));
     noise = (noise*2.-1.)*0.499*2.;

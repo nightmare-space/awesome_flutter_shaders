@@ -1,7 +1,14 @@
 // --- Migrate Log ---
-// 添加 common_header 引入；初始化 mainImage 中的局部变量以避免未定义行为；在文件末尾添加 main include
+// 1) 添加 common_header 引入
+// 2) 初始化 mainImage 中的局部变量以避免未定义行为
+// 3) 在文件末尾添加 main include
+// 4) 替换参数化的 heightmap 函数为两个常数迭代版本（heightmapMarch/heightmapNormal），修复 SkSL for 循环常数要求
+//
 // --- Migrate Log (EN) ---
-// Added common_header include; initialized local variables in mainImage to avoid undefined behavior; appended main include at file end
+// 1) Added common_header include
+// 2) Initialized local variables in mainImage to avoid undefined behavior
+// 3) Appended main include at file end
+// 4) Replaced parameterized heightmap function with two constant-iteration versions (heightmapMarch/heightmapNormal) to comply with SkSL for loop constant requirement
 
 #include <../common/common_header.frag>
 
@@ -67,7 +74,7 @@ vec2 getWave(vec2 position, vec2 dir, float speed, float frequency, float timesh
     float dist = wave * cos(x);
     return vec2(wave, -dist);
 }
-float heightmap(vec2 worldPos, int iterations) {
+float heightmapMarch(vec2 worldPos) {
     const float scale = 0.13;
     vec2 p = worldPos * scale;
     vec2 p2 = (artifactOffset.xz - vec2(0.0, 1.0)) * scale;
@@ -81,7 +88,34 @@ float heightmap(vec2 worldPos, int iterations) {
     float waveScale = 0.0;
     vec2 dir;
     vec2 res;
-    for (int i = 0; i < iterations; i++) {
+    for (int i = 0; i < WATER_MARCH_ITERATIONS; i++) {
+        dir = vec2(cos(angle), sin(angle));
+        res = getWave(p, dir, speed, freq, time);
+        p += dir * res.y * weight * 0.05;
+        wave += res.x * weight - d;
+        angle += 12.0;
+        waveScale += weight;
+        weight = mix(weight, 0.0, 0.2);
+        freq *= 1.18;
+        speed *= 1.06;
+    }
+    return wave / waveScale;
+}
+float heightmapNormal(vec2 worldPos) {
+    const float scale = 0.13;
+    vec2 p = worldPos * scale;
+    vec2 p2 = (artifactOffset.xz - vec2(0.0, 1.0)) * scale;
+    float d = clamp(length(p2 - p) / 0.8, 0.0, 1.0);
+    d = (1.0 - smoothstep(0.0, 1.0, d)) * 0.8;
+    float angle     = 0.0;
+    float freq      = 5.0;
+    float speed     = 2.0;
+    float weight    = 1.9;
+    float wave      = 0.0;
+    float waveScale = 0.0;
+    vec2 dir;
+    vec2 res;
+    for (int i = 0; i < WATER_NORMAL_ITERATIONS; i++) {
         dir = vec2(cos(angle), sin(angle));
         res = getWave(p, dir, speed, freq, time);
         p += dir * res.y * weight * 0.05;
@@ -96,10 +130,9 @@ float heightmap(vec2 worldPos, int iterations) {
 }
 vec3 waterNormal(vec2 p, float eps) {
     vec2 h = vec2(eps, 0.0);
-    #define i WATER_NORMAL_ITERATIONS
-    return normalize(vec3(heightmap(p - h.xy, i) - heightmap(p + h.xy, i),
+    return normalize(vec3(heightmapNormal(p - h.xy) - heightmapNormal(p + h.xy),
                           2.0 * eps,
-                          heightmap(p - h.yx, i) - heightmap(p + h.yx, i)));
+                          heightmapNormal(p - h.yx) - heightmapNormal(p + h.yx)));
 }
 float octahedron(vec3 p, float s) {
   p = abs(p);
@@ -234,7 +267,7 @@ void marchWater(vec3 eye, vec3 ray, inout vec4 color) {
     float height = 0.0;
     vec3 rayPos = eye + ray * ceilDist;
     for (int i = 0; i < 80; i++) {
-        height = heightmap(rayPos.xz, WATER_MARCH_ITERATIONS) * depth - depth;
+        height = heightmapMarch(rayPos.xz) * depth - depth;
         if (rayPos.y - height < 0.1) {
             color.w = distance(rayPos, eye);
             vec3 normPos = (eye + ray * color.w);
