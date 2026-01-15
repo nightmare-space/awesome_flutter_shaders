@@ -146,8 +146,8 @@ flutter:
     #
     # m
     - shaders/m/M-O (from Wall-E).frag
-    - shaders/m/MacOS Monterey 2 BufferA.frag
-    - shaders/m/MacOS Monterey 2.frag
+    - shaders/m/macOS Monterey 2 BufferA.frag
+    - shaders/m/macOS Monterey 2.frag
     - shaders/m/MacOS Monterey wallpaper BufferA.frag
     - shaders/m/MacOS Monterey wallpaper.frag
     - shaders/m/Mandelbulb 3D Fractal.frag
