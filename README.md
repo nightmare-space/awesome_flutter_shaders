@@ -258,9 +258,3 @@ However, if Flutter fixes this issue in the future, this work would become unnec
 - [`shaders/w/Where the River Goes.frag`](https://www.shadertoy.com/view/Xl2XRW)
 
 - [`shaders/z/Zippy Zaps.frag`](https://www.shadertoy.com/view/XXyGzh)
-
-根据 prot_shader.prompt.md 文档修复当前着色器，并重新整理迁移文档
-
-报错如下，仅在 Web 端出现，修复需要不带来性能问题
-
-，你只需要修复，不需要验证
