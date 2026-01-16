@@ -27,6 +27,12 @@ flutter run -d macos
 flutter run -d chrome
 ```
 
+## Online Experience
+
+Most shaders in this gallery support running directly on the Web. For those that don't, see the section below for details.
+
+Experience the magic by visiting the built web version: https://nightmare-space.github.io/awesome_flutter_shaders/
+
 ## Current Issues
 
 Some shaders may fail to run on the Web (due to Skia’s SkSL limitations) but work fine on desktop and mobile platforms. However, they can still run on ShaderToy. At the moment, it’s possible to fix them one by one—for example, by switching to compatible syntax and using macros to replace unsupported functions.
