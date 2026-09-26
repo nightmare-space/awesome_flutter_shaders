@@ -7,9 +7,9 @@ import 'package:shader_graph/shader_graph.dart';
 List<Widget> buildShaderWidgets() {
   return [
     AwesomeShader(SA.ed209),
-    AwesomeShader('shaders/e/electron.frag', upSideDown: false),
+    AwesomeShader(SA.electron, upSideDown: false),
     // Elemental Ring
-    AwesomeShader('shaders/e/Elemental Ring.frag'),
+    AwesomeShader(SA.elementalRing),
     // TODO: Fix: Effect not match
     // Builder(
     //   builder: (context) {
@@ -27,7 +27,7 @@ List<Widget> buildShaderWidgets() {
     //   },
     // ),
     // Endless living creature
-    AwesomeShader('shaders/e/Endless living creature.frag'),
+    AwesomeShader(SA.endlessLivingCreature),
     AwesomeShader(
       SA.entryLevel
           .feed(
@@ -37,10 +37,10 @@ List<Widget> buildShaderWidgets() {
           .feed(SA.cubemapUffiziGalleryBlurred),
     ),
     // Ether
-    AwesomeShader('shaders/e/Ether.frag'),
-    AwesomeShader('shaders/e/Eve Arrives.frag'.feed(SA.textureOrganic2)),
+    AwesomeShader(SA.ether),
+    AwesomeShader(SA.eveArrives.feed(SA.textureOrganic2)),
     // Even faster procedural ocean
-    if (!kIsWeb) AwesomeShader('shaders/e/Even faster procedural ocean.frag'),
+    if (!kIsWeb) AwesomeShader(SA.evenFasterProceduralOcean),
 
     // for compare different noise inputs
     // ShaderSurface.builder(
@@ -66,11 +66,11 @@ List<Widget> buildShaderWidgets() {
     // ),
     ShaderSurface.builder(
       () {
-        final bufferA = 'shaders/e/expansive reaction-diffusion BufferA.frag'.shaderBuffer;
-        final bufferB = 'shaders/e/expansive reaction-diffusion BufferB.frag'.shaderBuffer;
-        final bufferC = 'shaders/e/expansive reaction-diffusion BufferC.frag'.shaderBuffer;
-        final bufferD = 'shaders/e/expansive reaction-diffusion BufferD.frag'.shaderBuffer;
-        final mainBuffer = 'shaders/e/expansive reaction-diffusion.frag'.shaderBuffer;
+        final bufferA = SA.expansiveReactionDiffusionBufferA.shaderBuffer;
+        final bufferB = SA.expansiveReactionDiffusionBufferB.shaderBuffer;
+        final bufferC = SA.expansiveReactionDiffusionBufferC.shaderBuffer;
+        final bufferD = SA.expansiveReactionDiffusionBufferD.shaderBuffer;
+        final mainBuffer = SA.expansiveReactionDiffusion.shaderBuffer;
 
         bufferA.feedback(filter: .linear).feed(bufferC, filter: .linear).feed(bufferD, filter: .linear);
         bufferA.feed(rgbaNoiseMediumInput, wrap: .repeat, filter: .linear);

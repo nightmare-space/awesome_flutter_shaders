@@ -7,8 +7,8 @@ import 'package:shader_graph/shader_graph.dart';
 List<Widget> buildShaderWidgets() {
   return [
     AwesomeShader(SA.cineShaderLava),
+    AwesomeShader(SA.clouds3D),
     AwesomeShader(SA.clouds2D),
-    AwesomeShader('shaders/c/Clouds 3D.frag'),
     AwesomeShader(SA.cobwebTest),
     if (!kIsWeb) AwesomeShader(SA.cold),
     AwesomeShader(SA.colorfulUnderwaterBubblesIi),

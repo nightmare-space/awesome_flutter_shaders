@@ -31,9 +31,9 @@ List<Widget> buildShaderWidgets() {
       buffer.feed(SA.textureLondon);
       return [buffer];
     }),
-    AwesomeShader('shaders/a/Analytic Motionblur 2D.frag'),
+    AwesomeShader(SA.analyticMotionblur2D),
     AwesomeShader(
-      'shaders/a/anamorphic rendering.frag',
+      SA.anamorphicRendering,
       upSideDown: false,
       inputs: [SA.textureLondon],
     ),

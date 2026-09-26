@@ -15,7 +15,7 @@ List<Widget> buildShaderWidgets() {
     //   return [main];
     // }),
     AwesomeShader(() {
-      final main = 'shaders/w/Warp Tunnel.frag'.shaderBuffer;
+      final main = SA.warpTunnel.shaderBuffer;
       main.feedInput(rgbaNoiseMediumInput);
       main.feed(SA.textureStars, wrap: .repeat, filter: .linear);
       main.feed(SA.textureOrganic2, wrap: .repeat, filter: .linear);
@@ -33,6 +33,5 @@ List<Widget> buildShaderWidgets() {
       upSideDown: false,
     ),
     if (!kIsWeb) AwesomeShader(SA.whereTheRiverGoes.feed(SA.textureLichen)),
-    AwesomeShader('shaders/w/WMW.frag'),
   ];
 }
